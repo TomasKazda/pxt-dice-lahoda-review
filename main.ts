@@ -1,11 +1,11 @@
 let diceSides: number = 6;
 const diceMAX: number = 99;
 const diceMIN: number = 1;
-let Debounce: boolean = false;
+let debounce: boolean = false;
 music.play(music.tonePlayable(Note.F4, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone);
-
+pins.touchSetMode(TouchTarget.P2, TouchTargetMode.Capacitive);
 function showCustomPattern(value: number) {
-    if (value == 1) {
+    if (value === 1) {
         basic.showLeds(`
             . . . . .
             . . . . .
@@ -13,7 +13,7 @@ function showCustomPattern(value: number) {
             . . . . .
             . . . . .
         `);
-    } else if (value == 2) {
+    } else if (value === 2) {
         basic.showLeds(`
             . . . . .
             . # . . .
@@ -21,7 +21,7 @@ function showCustomPattern(value: number) {
             . . . # .
             . . . . .
         `);
-    } else if (value == 3) {
+    } else if (value === 3) {
         basic.showLeds(`
             . . . . .
             . # . . .
@@ -29,7 +29,7 @@ function showCustomPattern(value: number) {
             . . . # .
             . . . . .
         `);
-    } else if (value == 4) {
+    } else if (value === 4) {
         basic.showLeds(`
             . . . . .
             . # . # .
@@ -37,7 +37,7 @@ function showCustomPattern(value: number) {
             . # . # .
             . . . . .
         `);
-    } else if (value == 5) {
+    } else if (value === 5) {
         basic.showLeds(`
             . . . . .
             . # . # .
@@ -45,7 +45,7 @@ function showCustomPattern(value: number) {
             . # . # .
             . . . . .
         `);
-    } else if (value == 6) {
+    } else if (value === 6) {
         basic.showLeds(`
             . . . . .
             . # . # .
@@ -67,7 +67,7 @@ while (true) {
     }
 
     if (input.buttonIsPressed(Button.B)) {
-        if (diceSides < 100) {
+        if (diceSides < diceMAX) {
             diceSides += 1;
         }
 
@@ -87,8 +87,8 @@ while (true) {
 
 
     if (input.isGesture(Gesture.Shake)) {
-        if (Debounce == false) {
-            Debounce = true;
+        if (!debounce) {
+            debounce = true;
             let randomNumber = randint(1, diceSides);
 
             if (diceSides <= 6) {
@@ -101,7 +101,7 @@ while (true) {
                 }
             }
 
-            if (randomNumber == 100) {
+            if (randomNumber === 100) {
 
                 basic.showLeds(`
                 . . . . .
@@ -119,8 +119,8 @@ while (true) {
     }
 
     if (input.pinIsPressed(TouchPin.P2)) {
-        if (Debounce == true) {
-            Debounce = false;
+        if (debounce) {
+            debounce = false;
             music.play(music.tonePlayable(Note.A, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone);
         }
     }
